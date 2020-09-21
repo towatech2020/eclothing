@@ -1,4 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Eclothing ecommerce store
+
+An Ecommerce demo project built with React/Redux with integration with the following services:
+
+- firebase
+- stripe
 
 ## Available Scripts
 
