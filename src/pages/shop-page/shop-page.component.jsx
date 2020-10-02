@@ -5,10 +5,7 @@ import CollectionsOverviewContainer from '../../components/collections-overview/
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createUpdateCollectionsSequence } from '../../redux/shop/shop.actions';
-
-// const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
-// const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+import { createUpdateCollectionsStart } from '../../redux/shop/shop.actions';
 
 class ShopPage extends React.Component {
 
@@ -19,19 +16,24 @@ class ShopPage extends React.Component {
 
   render() {
     const { match } = this.props;
-    // console.log(`is loading: ${isLoading}`);
     return (
       <div className="shop-page">
-        {/* <CollectionsOverview /> */}
-        <Route exact path={`${match.path}`} component={CollectionsOverviewContainer} />
-        <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
+        <Route
+          exact
+          path={`${match.path}`}
+          component={CollectionsOverviewContainer}
+        />
+        <Route
+          path={`${match.path}/:collectionId`}
+          component={CollectionPageContainer}
+        />
       </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  updateCollections: () => dispatch(createUpdateCollectionsSequence())
-})
+  updateCollections: () => dispatch(createUpdateCollectionsStart()),
+});
 
 export default connect(null, mapDispatchToProps)(ShopPage);

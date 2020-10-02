@@ -1,29 +1,27 @@
 import './sign-in.styles.scss';
 
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+import {
+  createSignInStartAction,
+  createSignInWithGoogleStartAction,
+} from '../../redux/user/user.actions';
 
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-    };
-  }
+class SignIn extends React.Component {
+  state = {
+    email: '',
+    password: '',
+  };
 
   handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password } = this.state;
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ email: '', password: '' });
-    } catch (error) {
-      console.error('error signing in ', error);
-    }
+    const { dispatchSignInAction } = this.props;
+
+    dispatchSignInAction({ email, password });
   };
 
   handleChange = (e) => {
@@ -34,6 +32,7 @@ export default class SignIn extends React.Component {
   };
 
   render() {
+    const { dispatchSignInWithGoogleAction   } = this.props;
     return (
       <div className="sign-in">
         <h2>I already have an account</h2>
@@ -59,7 +58,7 @@ export default class SignIn extends React.Component {
             <CustomButton type="submit">Sign in</CustomButton>
             <CustomButton
               type="button"
-              onClick={signInWithGoogle}
+              onClick={dispatchSignInWithGoogleAction}
               isGoogleSignIn
             >
               Sign in with Google
@@ -70,3 +69,11 @@ export default class SignIn extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchSignInAction: (cred) => dispatch(createSignInStartAction(cred)),
+  dispatchSignInWithGoogleAction: (cred) =>
+    dispatch(createSignInWithGoogleStartAction()),
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);

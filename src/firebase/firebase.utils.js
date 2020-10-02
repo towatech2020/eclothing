@@ -32,7 +32,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   const userRef = firestore.doc(`users/${userAuth.uid}`);
   const user = await userRef.get();
 
-  console.log(`user is ${user}`);
   if (!user.exists) {
     const { displayName, email } = userAuth;
     try {
@@ -74,3 +73,7 @@ export const convertCollectionsSnapshotToMap = (collections) =>
     };
     return ac;
   }, {});
+
+export const signInWithEmailAndPassword = async (email, password) => {
+  return await auth.signInWithEmailAndPassword(email, password);
+};
